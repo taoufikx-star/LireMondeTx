@@ -1,0 +1,110 @@
+/* الصفحة كاملة */
+body {
+  background-color: beige;
+  font-family: Arial;
+  margin: 0;
+}
+
+/* navbar */
+.navbar {
+  background-color: black;
+  color: white;
+  padding: 20px;
+}
+
+/* logo */
+.logo {
+  color: gold;
+  font-size: 30px;
+}
+
+/* search */
+input {
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+}
+
+/* les boutons */
+button {
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+/* bouton actif */
+.actif {
+  background-color: red;
+  color: white;
+}
+
+/* les livres */
+.grille {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+/* carte livre */
+.carte {
+  background-color: white;
+  width: 180px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* image */
+.carte img {
+  width: 100%;
+}
+
+/* infos */
+.info {
+  padding: 10px;
+}
+
+/* titre */
+.titre {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* auteur */
+.auteur {
+  color: gray;
+}
+
+/* badge */
+.badge {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+/* modale */
+.overlay {
+  background-color: rgba(0,0,0,0.5);
+}
+
+/* contenu modale */
+.modale {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* bouton ajouter */
+.btn-alire {
+  background-color: red;
+  color: white;
+}
+
+/* bouton fermer */
+.btn-fermer {
+  background: none;
+  border: none;
+  font-size: 20px;
+}

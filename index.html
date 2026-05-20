@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LireMonde</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================
+       NAVBAR
+       ============================ -->
+  <nav class="navbar">
+    <div class="logo">LireMonde</div>
+    <input
+      type="text"
+      id="recherche"
+      placeholder="Rechercher un livre..." />
+  </nav>
+
+  <!-- ============================
+       FILTRES PAR GENRE
+       ============================ -->
+  <div id="filtres" class="filtres">
+    <!-- généré automatiquement par app.js -->
+  </div>
+
+  <!-- ============================
+       GRILLE DES LIVRES
+       ============================ -->
+  <div id="grille" class="grille">
+    <!-- généré automatiquement par app.js -->
+  </div>
+
+  <!-- ============================
+       MODALE DÉTAILS LIVRE
+       ============================ -->
+  <div id="overlay" class="overlay">
+    <div class="modale">
+
+      <!-- image couverture -->
+      <img id="modal-image" src="" alt="" />
+
+      <!-- contenu texte -->
+      <div class="contenu">
+        <button id="btn-fermer" class="btn-fermer">✕</button>
+        <p  id="modal-genre">       </p>
+        <p  id="modal-titre"  class="titre"> </p>
+        <p  id="modal-auteur" class="auteur"> </p>
+        <p  id="modal-description" class="description"> </p>
+        <button id="btn-alire" class="btn-alire">
+          + Ajouter à ma liste
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- app.js chargé en dernier pour que le DOM soit prêt -->
+  <script src="app.js"></script>
+
+</body>
+</html>
