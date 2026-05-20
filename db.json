@@ -1,0 +1,58 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "titre": "Le Petit Prince",
+      "auteur": "Antoine de Saint-Exupéry",
+      "genre": "Classique",
+      "description": "Un conte poétique et philosophique sur l'amitié et l'essentiel de la vie.",
+      "couverture": "https://picsum.photos/200/300?random=1",
+      "aLire": false
+    },
+    {
+      "id": 2,
+      "titre": "1984",
+      "auteur": "George Orwell",
+      "genre": "Science-fiction",
+      "description": "Un roman dystopique décrivant une société sous surveillance totale.",
+      "couverture": "https://picsum.photos/200/300?random=2",
+      "aLire": false
+    },
+    {
+      "id": 3,
+      "titre": "Les Misérables",
+      "auteur": "Victor Hugo",
+      "genre": "Drame",
+      "description": "Une fresque sociale et humaine autour de la rédemption et la justice.",
+      "couverture": "https://picsum.photos/200/300?random=3",
+      "aLire": false
+    },
+    {
+      "id": 4,
+      "titre": "Harry Potter à l'école des sorciers",
+      "auteur": "J.K. Rowling",
+      "genre": "Fantasy",
+      "description": "Le début des aventures magiques de Harry Potter et ses amis à Poudlard.",
+      "couverture": "https://picsum.photos/200/300?random=4",
+      "aLire": false
+    },
+    {
+      "id": 5,
+      "titre": "L'Étranger",
+      "auteur": "Albert Camus",
+      "genre": "Classique",
+      "description": "Un roman existentiel explorant l'absurde et la condition humaine.",
+      "couverture": "https://picsum.photos/200/300?random=5",
+      "aLire": false
+    },
+    {
+      "id": 6,
+      "titre": "Le Seigneur des Anneaux",
+      "auteur": "J.R.R. Tolkien",
+      "genre": "Fantasy",
+      "description": "Une épopée fantastique autour de la quête de l'Anneau unique.",
+      "couverture": "https://picsum.photos/200/300?random=6",
+      "aLire": false
+    }
+  ]
+}
