@@ -1,64 +1,247 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LireMonde</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LireMonde — Administration</title>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Styles Global -->
+  <link rel="stylesheet" href="/style.css">
 </head>
-<body>
+<body class="bg-brand-sand text-brand-text flex flex-col min-h-screen">
 
-  <!-- ============================
-       NAVBAR
-       ============================ -->
-  <nav class="navbar">
-    <div class="logo">LireMonde</div>
-    <input
-      type="text"
-      id="recherche"
-      placeholder="Rechercher un livre..." />
-  </nav>
+  <!-- Navbar -->
+  <header class="bg-brand-paper border-b border-brand-border sticky top-0 z-50 transition-shadow duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="/index.html" class="flex items-center gap-2.5 shrink-0 group">
+        <div class="w-10 h-10 bg-brand-bordeaux rounded-lg flex items-center justify-center text-white shadow-md group-hover:bg-brand-bordeaux-hover transition-colors">
+          <i data-lucide="book-open" class="w-5.5 h-5.5"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-serif text-2xl font-bold tracking-tight text-brand-bordeaux">LireMonde</span>
+          <span class="text-[10px] uppercase tracking-widest text-brand-text-muted -mt-1 font-semibold">Culture & Lecture</span>
+        </div>
+      </a>
 
-  <!-- ============================
-       FILTRES PAR GENRE
-       ============================ -->
-  <div id="filtres" class="filtres">
-    <!-- généré automatiquement par app.js -->
-  </div>
-
-  <!-- ============================
-       GRILLE DES LIVRES
-       ============================ -->
-  <div id="grille" class="grille">
-    <!-- généré automatiquement par app.js -->
-  </div>
-
-  <!-- ============================
-       MODALE DÉTAILS LIVRE
-       ============================ -->
-  <div id="overlay" class="overlay">
-    <div class="modale">
-
-      <!-- image couverture -->
-      <img id="modal-image" src="" alt="" />
-
-      <!-- contenu texte -->
-      <div class="contenu">
-        <button id="btn-fermer" class="btn-fermer">✕</button>
-        <p  id="modal-genre">       </p>
-        <p  id="modal-titre"  class="titre"> </p>
-        <p  id="modal-auteur" class="auteur"> </p>
-        <p  id="modal-description" class="description"> </p>
-        <button id="btn-alire" class="btn-alire">
-          + Ajouter à ma liste
-        </button>
+      <!-- Inactive Search Bar for subpages -->
+      <div class="relative max-w-md w-full md:block hidden opacity-55">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <i data-lucide="search" class="h-5 w-5 text-brand-text-muted"></i>
+        </div>
+        <input 
+          type="text" 
+          placeholder="Recherche active sur l'accueil uniquement..." 
+          disabled
+          class="block w-full pl-10 pr-4 py-2 bg-brand-cream/60 border border-brand-border rounded-full text-sm text-brand-text/50 pointer-events-none font-sans"
+        >
       </div>
 
+      <!-- Navigation Links (Admin Active) -->
+      <nav class="flex items-center gap-1 sm:gap-2">
+        <a href="/index.html" class="px-4 py-2 rounded-full text-sm font-medium text-brand-text-muted hover:text-brand-bordeaux hover:bg-brand-bordeaux-light/50 flex items-center gap-1.5 transition-colors">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          <span class="sm:block hidden">Accueil</span>
+        </a>
+        <a href="/reading-list.html" class="px-4 py-2 rounded-full text-sm font-medium text-brand-text-muted hover:text-brand-bordeaux hover:bg-brand-bordeaux-light/50 flex items-center gap-1.5 transition-colors">
+          <i data-lucide="bookmark" class="w-4 h-4"></i>
+          <span class="sm:block hidden">À lire</span>
+        </a>
+        <a href="/admin.html" class="px-4 py-2 rounded-full text-sm font-medium text-brand-bordeaux bg-brand-bordeaux-light flex items-center gap-1.5 transition-colors">
+          <i data-lucide="sliders" class="w-4 h-4"></i>
+          <span class="sm:block hidden">Admin</span>
+        </a>
+      </nav>
+
     </div>
-  </div>
+  </header>
 
-  <!-- app.js chargé en dernier pour que le DOM soit prêt -->
-  <script src="app.js"></script>
+  <!-- Title introduction section -->
+  <section class="bg-brand-paper py-8 border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="font-serif text-3xl font-bold text-brand-text tracking-tight flex items-center gap-2">
+        <i data-lucide="sliders" class="text-brand-bordeaux w-8 h-8"></i>
+        Tableau de Bord Admin
+      </h1>
+      <p class="text-sm text-brand-text-muted mt-1 max-w-2xl">
+        Gérez l'ensemble de la bibliothèque LireMonde. Ajoutez de nouvelles références, modifiez les fiches existantes, ou supprimez des livres obsolètes en temps réel.
+      </p>
+    </div>
+  </section>
 
+  <!-- Main Content split layout -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Left Column: Dynamic Form (Add / Edit) -->
+    <div class="w-full lg:w-4/12 shrink-0">
+      <div class="bg-brand-paper rounded-xl p-6 border border-brand-border shadow-xs sticky top-28">
+        
+        <!-- Form Header state indicators -->
+        <div class="border-b border-brand-border/60 pb-4 mb-5 flex items-center gap-2.5">
+          <div id="form-icon-container" class="w-8 h-8 rounded-full bg-brand-bordeaux-light text-brand-bordeaux flex items-center justify-center">
+            <i id="form-header-icon" data-lucide="plus-circle" class="w-4.5 h-4.5"></i>
+          </div>
+          <div>
+            <h2 id="form-title" class="font-serif text-lg font-bold text-brand-text">Ajouter un livre</h2>
+            <p id="form-subtitle" class="text-[10px] text-brand-text-muted uppercase tracking-wider font-semibold">Champs requis pour la fiche</p>
+          </div>
+        </div>
+
+        <!-- Form Element -->
+        <form id="book-form" class="space-y-4">
+          <!-- Hidden field to keep track of edit id -->
+          <input type="hidden" id="form-book-id" value="">
+
+          <!-- Titre -->
+          <div>
+            <label for="form-title-input" class="block text-xs font-bold text-brand-text uppercase tracking-wider mb-1">Titre du livre *</label>
+            <input 
+              type="text" 
+              id="form-title-input" 
+              required
+              placeholder="ex: Le Comte de Monte-Cristo" 
+              class="w-full px-3.5 py-2 bg-brand-cream/40 border border-brand-border rounded-lg text-sm text-brand-text focus:outline-none focus:ring-2 focus:ring-brand-bordeaux focus:border-brand-bordeaux transition-all placeholder-brand-text-muted/40 font-sans"
+            >
+          </div>
+
+          <!-- Auteur -->
+          <div>
+            <label for="form-author-input" class="block text-xs font-bold text-brand-text uppercase tracking-wider mb-1">Auteur *</label>
+            <input 
+              type="text" 
+              id="form-author-input" 
+              required
+              placeholder="ex: Alexandre Dumas" 
+              class="w-full px-3.5 py-2 bg-brand-cream/40 border border-brand-border rounded-lg text-sm text-brand-text focus:outline-none focus:ring-2 focus:ring-brand-bordeaux focus:border-brand-bordeaux transition-all placeholder-brand-text-muted/40 font-sans"
+            >
+          </div>
+
+          <!-- Genre -->
+          <div>
+            <label for="form-genre-select" class="block text-xs font-bold text-brand-text uppercase tracking-wider mb-1">Genre littéraire *</label>
+            <select 
+              id="form-genre-select" 
+              required
+              class="w-full px-3.5 py-2 bg-brand-cream/40 border border-brand-border rounded-lg text-sm text-brand-text focus:outline-none focus:ring-2 focus:ring-brand-bordeaux focus:border-brand-bordeaux transition-all"
+            >
+              <option value="Classique">Classique</option>
+              <option value="Science-fiction">Science-fiction</option>
+              <option value="Drame">Drame</option>
+              <option value="Fantasy">Fantasy</option>
+            </select>
+          </div>
+
+          <!-- Couverture URL -->
+          <div>
+            <label for="form-cover-input" class="block text-xs font-bold text-brand-text uppercase tracking-wider mb-1">URL de la couverture</label>
+            <input 
+              type="url" 
+              id="form-cover-input" 
+              placeholder="https://covers.openlibrary.org/..." 
+              class="w-full px-3.5 py-2 bg-brand-cream/40 border border-brand-border rounded-lg text-sm text-brand-text focus:outline-none focus:ring-2 focus:ring-brand-bordeaux focus:border-brand-bordeaux transition-all placeholder-brand-text-muted/40 font-sans"
+            >
+            <p class="text-[10px] text-brand-text-muted/80 mt-1 italic">Laissez vide pour générer un visuel aléatoire par défaut.</p>
+          </div>
+
+          <!-- Description / Synopsis -->
+          <div>
+            <label for="form-description-input" class="block text-xs font-bold text-brand-text uppercase tracking-wider mb-1">Synopsis *</label>
+            <textarea 
+              id="form-description-input" 
+              required
+              rows="4"
+              placeholder="Rédigez un résumé accrocheur en 2-3 phrases (intrigue, thèmes, importance de l'œuvre)..." 
+              class="w-full px-3.5 py-2 bg-brand-cream/40 border border-brand-border rounded-lg text-sm text-brand-text focus:outline-none focus:ring-2 focus:ring-brand-bordeaux focus:border-brand-bordeaux transition-all placeholder-brand-text-muted/40 font-sans"
+            ></textarea>
+          </div>
+
+          <!-- Checkbox "A lire ?" -->
+          <div class="flex items-center gap-2 pt-1">
+            <input 
+              type="checkbox" 
+              id="form-alire-input" 
+              class="w-4 h-4 text-brand-bordeaux rounded border-brand-border focus:ring-brand-bordeaux"
+            >
+            <label for="form-alire-input" class="text-xs font-semibold text-brand-text cursor-pointer">Ajouter d'office à la liste "À lire"</label>
+          </div>
+
+          <!-- Action buttons wrapper -->
+          <div class="pt-4 flex flex-col gap-2">
+            <button 
+              type="submit" 
+              id="form-submit-btn" 
+              class="w-full bg-brand-bordeaux hover:bg-brand-bordeaux-hover text-white font-semibold py-2.5 px-4 rounded-lg shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer text-sm"
+            >
+              <i data-lucide="plus" class="w-4.5 h-4.5"></i>
+              <span>Ajouter à la bibliothèque</span>
+            </button>
+            <button 
+              type="button" 
+              id="form-cancel-btn" 
+              class="w-full border border-brand-border hover:bg-brand-sand font-semibold py-2.5 px-4 rounded-lg text-brand-text-muted transition-all flex items-center justify-center gap-2 cursor-pointer text-sm hidden"
+            >
+              <i data-lucide="x" class="w-4.5 h-4.5"></i>
+              Annuler les modifications
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+    <!-- Right Column: Books Table Listing -->
+    <div class="w-full lg:w-8/12 flex flex-col">
+      <div class="bg-brand-paper rounded-xl border border-brand-border shadow-xs overflow-hidden flex flex-col">
+        
+        <div class="p-5 border-b border-brand-border bg-brand-cream/10 flex items-center justify-between">
+          <h2 class="font-serif text-lg font-bold text-brand-text">Livres Référencés</h2>
+          <span id="admin-books-count" class="text-[10px] bg-brand-bordeaux-light text-brand-bordeaux px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">0 œuvre</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-brand-border/60 align-middle">
+            <thead class="bg-brand-sand/50">
+              <tr>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-brand-text-muted uppercase tracking-wider w-5/12">Livre</th>
+                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-brand-text-muted uppercase tracking-wider w-3/12">Genre</th>
+                <th scope="col" class="px-6 py-4 class text-center text-xs font-bold text-brand-text-muted uppercase tracking-wider w-2/12">État À Lire</th>
+                <th scope="col" class="px-6 py-4 text-right text-xs font-bold text-brand-text-muted uppercase tracking-wider w-2/12">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-tbody" class="divide-y divide-brand-border/40 bg-brand-paper">
+              <!-- Dynamically rendered rows -->
+              <tr>
+                <td colspan="4" class="px-6 py-12 text-center text-brand-text-muted">
+                  <div class="w-10 h-10 rounded-full border-4 border-t-brand-bordeaux border-brand-border animate-spin mx-auto mb-3"></div>
+                  <p class="font-medium text-sm">Chargement de l'inventaire...</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-brand-paper border-t border-brand-border py-8 mt-16 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+      <div>
+        <span class="font-serif text-xl font-bold tracking-tight text-brand-bordeaux">LireMonde</span>
+        <p class="text-xs text-brand-text-muted mt-1">Votre conservatoire littéraire en ligne.</p>
+      </div>
+      <div class="text-xs text-brand-text-muted">
+        &copy; <span id="current-year">2026</span> LireMonde. Conçu de manière artisanale avec passion.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Page Admin Core Logic -->
+  <script type="module" src="/js/admin.js"></script>
 </body>
-</html>
+</html>>

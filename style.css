@@ -1,110 +1,81 @@
-/* الصفحة كاملة */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Lato", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+  
+  --color-brand-cream: #F5EFEB;
+  --color-brand-sand: #FAF5F0;
+  --color-brand-paper: #FFFFFF;
+  --color-brand-border: #E5DDD0;
+  --color-brand-text: #2D2522;
+  --color-brand-text-muted: #6E625D;
+  --color-brand-bordeaux: #7C2230;
+  --color-brand-bordeaux-hover: #5F1521;
+  --color-brand-bordeaux-light: #F9ECEE;
+}
+
+/* Base custom styles to reinforce high-quality look and feel */
 body {
-  background-color: beige;
-  font-family: Arial;
-  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-brand-sand);
+  color: var(--color-brand-text);
+  line-height: 1.6;
 }
 
-/* navbar */
-.navbar {
-  background-color: black;
-  color: white;
-  padding: 20px;
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
 }
 
-/* logo */
-.logo {
-  color: gold;
-  font-size: 30px;
+/* Modal Open Animation */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
-/* search */
-input {
-  padding: 10px;
-  border-radius: 20px;
-  border: none;
+.animate-modal-in {
+  animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* les boutons */
-button {
-  padding: 10px;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
+/* Custom shadow effects for premium books look */
+.book-shadow {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 
+              0 2px 4px -1px rgba(0, 0, 0, 0.03),
+              5px 0 15px -5px rgba(0, 0, 0, 0.15); /* book edge depth */
 }
 
-/* bouton actif */
-.actif {
-  background-color: red;
-  color: white;
+.book-card-hover {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
 }
 
-/* les livres */
-.grille {
-  display: flex;
-  gap: 20px;
-  padding: 20px;
-  flex-wrap: wrap;
+.book-card-hover:hover {
+  transform: translateY(-4px) rotate(0.5deg);
+  box-shadow: 0 12px 20px -5px rgba(45, 37, 34, 0.1), 
+              0 8px 16px -8px rgba(45, 37, 34, 0.08);
 }
 
-/* carte livre */
-.carte {
-  background-color: white;
-  width: 180px;
-  border-radius: 10px;
-  overflow: hidden;
+/* Custom scrollbar to keep layout clean */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-/* image */
-.carte img {
-  width: 100%;
+::-webkit-scrollbar-track {
+  background: var(--color-brand-sand);
 }
 
-/* infos */
-.info {
-  padding: 10px;
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-border);
+  border-radius: 3px;
 }
 
-/* titre */
-.titre {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-/* auteur */
-.auteur {
-  color: gray;
-}
-
-/* badge */
-.badge {
-  background-color: red;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 20px;
-}
-
-/* modale */
-.overlay {
-  background-color: rgba(0,0,0,0.5);
-}
-
-/* contenu modale */
-.modale {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-/* bouton ajouter */
-.btn-alire {
-  background-color: red;
-  color: white;
-}
-
-/* bouton fermer */
-.btn-fermer {
-  background: none;
-  border: none;
-  font-size: 20px;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-text-muted);
 }
