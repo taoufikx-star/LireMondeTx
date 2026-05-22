@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LireMonde — Accueil</title>
+  <title>LireMonde — À lire</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
@@ -12,22 +12,17 @@
     <div class="nav-inner">
       <a href="index.html" class="logo">Lire<span>Monde</span></a>
       <ul>
-        <li><a href="index.html" class="actif">Accueil</a></li>
-        <li><a href="alire.html">À lire</a></li>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="alire.html" class="actif">À lire</a></li>
         <li><a href="admin.html">Admin</a></li>
       </ul>
-      <div class="nav-search">
-        <input type="text" id="recherche" placeholder="Rechercher…"/>
-      </div>
     </div>
   </nav>
 
   <main>
-    <section id="filtres"></section>
-    <section id="livres-grid" class="grille"></section>
+    <h1>📖 Ma liste À lire</h1>
+    <section id="alire-grid" class="grille"></section>
   </main>
-
-  <div id="modale" class="modale cache"></div>
 
   <footer><strong>LireMonde</strong> © 2025 — ReadSphere</footer>
 

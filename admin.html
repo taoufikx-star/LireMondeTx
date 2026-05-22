@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LireMonde — Admin</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="logo">Lire<span>Monde</span></a>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="alire.html">À lire</a></li>
+        <li><a href="admin.html" class="actif">Admin</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <h1>⚙️ Administration</h1>
+
+    <!-- Formulaire -->
+    <div class="form-card">
+      <h2 id="form-titre">➕ Ajouter un nouveau livre</h2>
+      <input type="hidden" id="champ-id"/>
+      <div class="fg">
+        <label for="champ-titre">Titre</label>
+        <input type="text" id="champ-titre" placeholder="Titre du livre"/>
+      </div>
+      <div class="fg">
+        <label for="champ-auteur">Auteur</label>
+        <input type="text" id="champ-auteur" placeholder="Prénom Nom"/>
+      </div>
+      <div class="fg">
+        <label for="champ-genre">Genre</label>
+        <select id="champ-genre">
+          <option>Classique</option>
+          <option>Science-fiction</option>
+          <option>Drame</option>
+          <option>Fantasy</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label for="champ-description">Description</label>
+        <textarea id="champ-description" placeholder="Résumé du livre…"></textarea>
+      </div>
+      <div class="fg">
+        <label for="champ-couverture">URL couverture</label>
+        <input type="text" id="champ-couverture" placeholder="https://picsum.photos/200/300?random=42"/>
+      </div>
+      <div class="form-actions">
+        <button id="btn-submit" class="btn btn-or">➕ Ajouter le livre</button>
+        <button id="btn-annuler" class="btn btn-ghost" style="display:none">Annuler</button>
+      </div>
+    </div>
+
+    <!-- Tableau -->
+    <div class="table-card">
+      <h2>📚 Tous les livres</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Titre</th><th>Auteur</th><th>Genre</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-livres"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer><strong>LireMonde</strong> © 2025 — ReadSphere</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
