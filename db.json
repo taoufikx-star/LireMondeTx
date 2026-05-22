@@ -1,16 +1,16 @@
 {
   "livres": [
     {
-      "id": 1,
+      "id": "1",
       "titre": "Le Petit Prince",
       "auteur": "Antoine de Saint-Exupéry",
       "genre": "Classique",
       "description": "Un aviateur tombe en panne dans le désert du Sahara et rencontre un mystérieux petit garçon venu d'une autre planète. Un conte poétique sur l'amitié et la nature humaine.",
       "couverture": "https://picsum.photos/seed/pp/200/300",
-      "aLire": false
+      "aLire": true
     },
     {
-      "id": 2,
+      "id": "2",
       "titre": "1984",
       "auteur": "George Orwell",
       "genre": "Science-fiction",
@@ -19,7 +19,7 @@
       "aLire": true
     },
     {
-      "id": 3,
+      "id": "3",
       "titre": "Les Misérables",
       "auteur": "Victor Hugo",
       "genre": "Drame",
@@ -28,7 +28,7 @@
       "aLire": false
     },
     {
-      "id": 4,
+      "id": "4",
       "titre": "Le Seigneur des Anneaux",
       "auteur": "J.R.R. Tolkien",
       "genre": "Fantasy",
@@ -37,7 +37,7 @@
       "aLire": true
     },
     {
-      "id": 5,
+      "id": "5",
       "titre": "Dune",
       "auteur": "Frank Herbert",
       "genre": "Science-fiction",
@@ -46,7 +46,7 @@
       "aLire": false
     },
     {
-      "id": 6,
+      "id": "6",
       "titre": "Harry Potter",
       "auteur": "J.K. Rowling",
       "genre": "Fantasy",
@@ -55,7 +55,7 @@
       "aLire": true
     },
     {
-      "id": 7,
+      "id": "7",
       "titre": "Madame Bovary",
       "auteur": "Gustave Flaubert",
       "genre": "Classique",
@@ -64,7 +64,7 @@
       "aLire": false
     },
     {
-      "id": 8,
+      "id": "8",
       "titre": "La Peste",
       "auteur": "Albert Camus",
       "genre": "Drame",
@@ -72,5 +72,6 @@
       "couverture": "https://picsum.photos/seed/pest/200/300",
       "aLire": false
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
