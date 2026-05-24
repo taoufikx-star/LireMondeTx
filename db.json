@@ -7,7 +7,7 @@
       "genre": "Classique",
       "description": "Un aviateur tombe en panne dans le désert du Sahara et rencontre un mystérieux petit garçon venu d'une autre planète. Un conte poétique sur l'amitié et la nature humaine.",
       "couverture": "https://picsum.photos/seed/pp/200/300",
-      "aLire": true
+      "aLire": false
     },
     {
       "id": "2",
@@ -52,7 +52,7 @@
       "genre": "Fantasy",
       "description": "Harry découvre à 11 ans qu'il est sorcier et entre à l'école Poudlard. Le début d'une aventure magique extraordinaire.",
       "couverture": "https://picsum.photos/seed/hpot/200/300",
-      "aLire": true
+      "aLire": false
     },
     {
       "id": "7",
