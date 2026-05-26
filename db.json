@@ -10,15 +10,6 @@
       "aLire": true
     },
     {
-      "id": "2",
-      "titre": "1984",
-      "auteur": "George Orwell",
-      "genre": "Science-fiction",
-      "description": "Dans un régime totalitaire, Winston Smith tente de résister à Big Brother qui contrôle tout, même les pensées.",
-      "couverture": "https://picsum.photos/seed/1984/200/300",
-      "aLire": true
-    },
-    {
       "id": "3",
       "titre": "Les Misérables",
       "auteur": "Victor Hugo",
@@ -72,5 +63,6 @@
       "couverture": "https://picsum.photos/seed/pest/200/300",
       "aLire": false
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
