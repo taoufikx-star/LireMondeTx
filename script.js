@@ -1,410 +1,354 @@
-// ================================================
-//   script.js — LireMonde
-//   Un seul fichier JS pour les 3 pages
-// ================================================
+// ================================
+//  app.js — LireMonde
+// ================================
 
-const BASE_URL = "http://localhost:3000";
+const URL = "http://localhost:3000/livres";
 
-// ================================================
-//   PARTIE 1 — FONCTIONS API
-// ================================================
+// ================================
+//  API — les requêtes fetch
+// ================================
 
-// Récupérer tous les livres
 async function getLivres() {
   try {
-    const reponse = await fetch(`${BASE_URL}/livres`);
-    const livres  = await reponse.json();
-    return livres;
-  } catch (erreur) {
-    console.error("Erreur getLivres :", erreur);
+    const rep = await fetch(URL);
+    return await rep.json();
+  } catch (e) {
+    console.error(e);
     return null;
   }
 }
 
-// Récupérer un seul livre par son id
 async function getLivreById(id) {
   try {
-    const reponse = await fetch(`${BASE_URL}/livres/${id}`);
-    const livre   = await reponse.json();
-    return livre;
-  } catch (erreur) {
-    console.error("Erreur getLivreById :", erreur);
+    const rep = await fetch(`${URL}/${id}`);
+    return await rep.json();
+  } catch (e) {
+    console.error(e);
     return null;
   }
 }
 
-// Ajouter un nouveau livre (POST)
-async function ajouterLivre(donnees) {
+async function ajouterLivre(data) {
   try {
-    const reponse = await fetch(`${BASE_URL}/livres`, {
-      method:  "POST",
+    const rep = await fetch(URL, {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify(donnees)
+      body: JSON.stringify(data),
     });
-    const livre = await reponse.json();
-    return livre;
-  } catch (erreur) {
-    console.error("Erreur ajouterLivre :", erreur);
+    return await rep.json();
+  } catch (e) {
+    console.error(e);
     return null;
   }
 }
 
-// Modifier un livre existant (PUT)
-async function modifierLivre(id, donnees) {
+async function modifierLivre(id, data) {
   try {
-    const reponse = await fetch(`${BASE_URL}/livres/${id}`, {
-      method:  "PUT",
+    const rep = await fetch(`${URL}/${id}`, {
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify(donnees)
+      body: JSON.stringify(data),
     });
-    const livre = await reponse.json();
-    return livre;
-  } catch (erreur) {
-    console.error("Erreur modifierLivre :", erreur);
+    return await rep.json();
+  } catch (e) {
+    console.error(e);
     return null;
   }
 }
 
-// Supprimer un livre (DELETE)
 async function supprimerLivre(id) {
   try {
-    await fetch(`${BASE_URL}/livres/${id}`, { method: "DELETE" });
+    await fetch(`${URL}/${id}`, { method: "DELETE" });
     return true;
-  } catch (erreur) {
-    console.error("Erreur supprimerLivre :", erreur);
+  } catch (e) {
+    console.error(e);
     return null;
   }
 }
 
-// Changer uniquement le champ aLire (PATCH)
 async function toggleALire(id, valeur) {
   try {
-    const reponse = await fetch(`${BASE_URL}/livres/${id}`, {
-      method:  "PATCH",
+    const rep = await fetch(`${URL}/${id}`, {
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify({ aLire: valeur })
+      body: JSON.stringify({ aLire: valeur }),
     });
-    const livre = await reponse.json();
-    return livre;
-  } catch (erreur) {
-    console.error("Erreur toggleALire :", erreur);
+    return await rep.json();
+  } catch (e) {
+    console.error(e);
     return null;
   }
 }
 
-// ================================================
-//   PARTIE 2 — PAGE ACCUEIL
-// ================================================
+// ================================
+//  PAGE ACCUEIL
+// ================================
 
 let livresTous = [];
 let genreActif = "Tous";
 
 async function initAccueil() {
   livresTous = await getLivres();
-
-  if (!livresTous) {
-    document.getElementById("livres-grid").innerHTML =
-      "<p class='vide'>JSON Server non demarre. Lance : npm start</p>";
-    return;
-  }
+  if (!livresTous) return;
 
   afficherLivres(livresTous);
   creerFiltres(livresTous);
-  document.getElementById("recherche").addEventListener("input", filtrerLivres);
+
+  document.getElementById("recherche")
+    .addEventListener("input", filtrer);
 }
 
 function afficherLivres(liste) {
   const grille = document.getElementById("livres-grid");
   grille.innerHTML = "";
 
-  if (liste.length === 0) {
-    grille.innerHTML = "<p class='vide'>Aucun livre trouve.</p>";
+  if (!liste.length) {
+    grille.innerHTML = "<p class='vide'>Aucun livre trouvé.</p>";
     return;
   }
 
-  liste.forEach(function(livre) {
-    const carte = document.createElement("div");
-    carte.classList.add("carte");
-
-    carte.innerHTML =
-      '<img src="' + livre.couverture + '" alt="' + livre.titre + '" />' +
-      '<div class="carte-body">' +
-        '<h3>' + livre.titre + '</h3>' +
-        '<p class="auteur">' + livre.auteur + '</p>' +
-        '<span class="badge badge-genre">' + livre.genre + '</span>' +
-      '</div>';
-
-    carte.addEventListener("click", function() {
-      ouvrirModale(livre);
-    });
-
-    grille.appendChild(carte);
+  liste.forEach((livre) => {
+    const div = document.createElement("div");
+    div.className = "carte";
+    div.innerHTML = `
+      <img src="${livre.couverture}" alt="${livre.titre}" />
+      <div class="info">
+        <h3>${livre.titre}</h3>
+        <p>${livre.auteur}</p>
+      </div>
+    `;
+    div.onclick = () => ouvrirModale(livre);
+    grille.appendChild(div);
   });
 }
 
 function creerFiltres(liste) {
-  const section = document.getElementById("filtres");
-  section.innerHTML = "";
+  const box = document.getElementById("filtres");
+  box.innerHTML = "";
 
-  const genres = ["Tous"];
-  liste.forEach(function(l) {
-    if (!genres.includes(l.genre)) genres.push(l.genre);
-  });
+  const genres = ["Tous", ...new Set(liste.map((l) => l.genre))];
 
-  genres.forEach(function(genre) {
+  genres.forEach((g) => {
     const btn = document.createElement("button");
-    btn.textContent = genre;
-    if (genre === "Tous") btn.classList.add("actif");
+    btn.textContent = g;
+    if (g === "Tous") btn.classList.add("actif");
 
-    btn.addEventListener("click", function() {
-      genreActif = genre;
-      section.querySelectorAll("button").forEach(function(b) {
-        b.classList.remove("actif");
-      });
+    btn.onclick = () => {
+      genreActif = g;
+      box.querySelectorAll("button")
+         .forEach((b) => b.classList.remove("actif"));
       btn.classList.add("actif");
-      filtrerLivres();
-    });
-
-    section.appendChild(btn);
+      filtrer();
+    };
+    box.appendChild(btn);
   });
 }
 
-function filtrerLivres() {
-  const motCle = document.getElementById("recherche").value.toLowerCase();
-  let resultat = livresTous;
+function filtrer() {
+  const mot = document.getElementById("recherche")
+                .value.toLowerCase();
 
-  if (genreActif !== "Tous") {
-    resultat = resultat.filter(function(l) {
-      return l.genre === genreActif;
-    });
-  }
+  let res = livresTous;
 
-  if (motCle.trim() !== "") {
-    resultat = resultat.filter(function(l) {
-      return l.titre.toLowerCase().includes(motCle) ||
-             l.auteur.toLowerCase().includes(motCle);
-    });
-  }
+  if (genreActif !== "Tous")
+    res = res.filter((l) => l.genre === genreActif);
 
-  afficherLivres(resultat);
+  if (mot)
+    res = res.filter(
+      (l) => l.titre.toLowerCase().includes(mot) ||
+             l.auteur.toLowerCase().includes(mot)
+    );
+
+  afficherLivres(res);
 }
 
 function ouvrirModale(livre) {
   const modale = document.getElementById("modale");
 
-  modale.innerHTML =
-    '<div class="modale-box">' +
-      '<button class="modale-fermer" id="fermer-modale">✕</button>' +
-      '<img class="cover" src="' + livre.couverture + '" alt="' + livre.titre + '" />' +
-      '<div class="modale-body">' +
-        '<span class="badge badge-genre">' + livre.genre + '</span>' +
-        '<h2>' + livre.titre + '</h2>' +
-        '<p class="sous-titre">' + livre.auteur + '</p>' +
-        '<p class="desc">' + livre.description + '</p>' +
-        '<button class="btn btn-or" id="btn-alire">' +
-          (livre.aLire ? "➖ Retirer de ma liste" : "➕ Ajouter a ma liste") +
-        '</button>' +
-      '</div>' +
-    '</div>';
+  modale.innerHTML = `
+    <div class="boite">
+      <button id="btn-fermer">✕</button>
+      <img src="${livre.couverture}" alt="${livre.titre}" />
+      <span class="badge">${livre.genre}</span>
+      <h2>${livre.titre}</h2>
+      <p class="auteur">✍️ ${livre.auteur}</p>
+      <p class="desc">${livre.description}</p>
+      <button class="btn-vert" id="btn-alire">
+        ${livre.aLire ? "➖ Retirer de ma liste" : "➕ Ajouter à ma liste"}
+      </button>
+    </div>
+  `;
 
   modale.classList.remove("cache");
 
-  document.getElementById("fermer-modale").addEventListener("click", fermerModale);
-  modale.addEventListener("click", function(e) {
-    if (e.target === modale) fermerModale();
-  });
+  document.getElementById("btn-fermer").onclick = fermerModale;
+  modale.onclick = (e) => { if (e.target === modale) fermerModale(); };
 
-  document.getElementById("btn-alire").addEventListener("click", async function() {
-    const nouvelleValeur = !livre.aLire;
-    const resultat = await toggleALire(livre.id, nouvelleValeur);
-    if (resultat) {
-      livre.aLire = nouvelleValeur;
-      const index = livresTous.findIndex(function(l) { return l.id === livre.id; });
-      if (index !== -1) livresTous[index].aLire = nouvelleValeur;
+  document.getElementById("btn-alire").onclick = async () => {
+    const nv = !livre.aLire;
+    const ok = await toggleALire(livre.id, nv);
+    if (ok) {
+      livre.aLire = nv;
+      livresTous.find((l) => l.id === livre.id).aLire = nv;
       document.getElementById("btn-alire").textContent =
-        nouvelleValeur ? "➖ Retirer de ma liste" : "➕ Ajouter a ma liste";
+        nv ? "➖ Retirer de ma liste" : "➕ Ajouter à ma liste";
     }
-  });
+  };
 }
 
 function fermerModale() {
   document.getElementById("modale").classList.add("cache");
 }
 
-// ================================================
-//   PARTIE 3 — PAGE A LIRE
-// ================================================
+// ================================
+//  PAGE À LIRE
+// ================================
 
 async function initAlire() {
-  const tousLesLivres = await getLivres();
+  const livres = await getLivres();
+  if (!livres) return;
 
-  if (!tousLesLivres) {
-    document.getElementById("alire-grid").innerHTML =
-      "<p class='vide'>JSON Server non demarre. Lance : npm start</p>";
-    return;
-  }
-
-  const livresALire = tousLesLivres.filter(function(livre) {
-    return livre.aLire === true;
-  });
-
-  afficherALire(livresALire);
-}
-
-function afficherALire(liste) {
+  const liste = livres.filter((l) => l.aLire === true);
   const grille = document.getElementById("alire-grid");
   grille.innerHTML = "";
 
-  if (liste.length === 0) {
-    grille.innerHTML = "<p class='vide'>Votre liste est vide. Ajoutez des livres depuis l'accueil !</p>";
+  if (!liste.length) {
+    grille.innerHTML =
+      "<p class='vide'>📭 Liste vide. Ajoutez des livres depuis l'accueil !</p>";
     return;
   }
 
-  liste.forEach(function(livre) {
-    const carte = document.createElement("div");
-    carte.classList.add("carte");
-
-    carte.innerHTML =
-      '<img src="' + livre.couverture + '" alt="' + livre.titre + '" />' +
-      '<div class="carte-body">' +
-        '<h3>' + livre.titre + '</h3>' +
-        '<p class="auteur">' + livre.auteur + '</p>' +
-        '<span class="badge badge-genre">' + livre.genre + '</span>' +
-        '<button class="btn-retirer">✖ Retirer de la liste</button>' +
-      '</div>';
-
-    carte.querySelector(".btn-retirer").addEventListener("click", async function() {
-      const resultat = await toggleALire(livre.id, false);
-      if (resultat) {
-        carte.remove();
-        if (grille.children.length === 0) {
-          grille.innerHTML = "<p class='vide'>Votre liste est vide.</p>";
-        }
+  liste.forEach((livre) => {
+    const div = document.createElement("div");
+    div.className = "carte";
+    div.innerHTML = `
+      <img src="${livre.couverture}" alt="${livre.titre}" />
+      <div class="info">
+        <h3>${livre.titre}</h3>
+        <p>${livre.auteur}</p>
+        <button class="btn-rouge">✖ Retirer</button>
+      </div>
+    `;
+    div.querySelector(".btn-rouge").onclick = async () => {
+      const ok = await toggleALire(livre.id, false);
+      if (ok) {
+        div.remove();
+        if (!grille.children.length)
+          grille.innerHTML =
+            "<p class='vide'>📭 Liste vide. Ajoutez des livres depuis l'accueil !</p>";
       }
-    });
-
-    grille.appendChild(carte);
+    };
+    grille.appendChild(div);
   });
 }
 
-// ================================================
-//   PARTIE 4 — PAGE ADMIN
-// ================================================
+// ================================
+//  PAGE ADMIN
+// ================================
 
 async function initAdmin() {
   await chargerTableau();
-  document.getElementById("form-livre").addEventListener("submit", soumettreFormulaire);
-  document.getElementById("btn-annuler").addEventListener("click", viderFormulaire);
+
+  document.getElementById("form-livre")
+    .addEventListener("submit", soumettre);
+  document.getElementById("btn-annuler")
+    .addEventListener("click", resetForm);
 }
 
 async function chargerTableau() {
   const livres = await getLivres();
+  if (!livres) return;
 
-  if (!livres) {
-    document.getElementById("corps-tableau").innerHTML =
-      '<tr><td colspan="4" style="color:red">JSON Server non demarre.</td></tr>';
-    return;
-  }
-
-  const corps = document.getElementById("corps-tableau");
-  corps.innerHTML = "";
-  livres.forEach(function(livre) {
-    corps.appendChild(creerLigne(livre));
-  });
+  const tbody = document.getElementById("corps-tableau");
+  tbody.innerHTML = "";
+  livres.forEach((l) => tbody.appendChild(creerLigne(l)));
 }
 
 function creerLigne(livre) {
-  const ligne = document.createElement("tr");
-  ligne.setAttribute("data-id", livre.id);
-
-  ligne.innerHTML =
-    '<td>' + livre.titre + '</td>' +
-    '<td>' + livre.auteur + '</td>' +
-    '<td><span class="badge badge-genre">' + livre.genre + '</span></td>' +
-    '<td class="td-actions">' +
-      '<button class="btn btn-bleu btn-modifier">✏️ Modifier</button>' +
-      '<button class="btn btn-rouge btn-supprimer">🗑️ Supprimer</button>' +
-    '</td>';
-
-  ligne.querySelector(".btn-modifier").addEventListener("click", function() {
-    remplirFormulaire(livre);
-  });
-  ligne.querySelector(".btn-supprimer").addEventListener("click", function() {
-    supprimerLigneLivre(livre.id, ligne);
-  });
-
-  return ligne;
+  const tr = document.createElement("tr");
+  tr.setAttribute("data-id", livre.id);
+  tr.innerHTML = `
+    <td>${livre.titre}</td>
+    <td>${livre.auteur}</td>
+    <td>${livre.genre}</td>
+    <td>
+      <button class="btn-bleu">✏️ Modifier</button>
+      <button class="btn-rouge">🗑️ Supprimer</button>
+    </td>
+  `;
+  tr.querySelector(".btn-bleu").onclick  = () => remplirForm(livre);
+  tr.querySelector(".btn-rouge").onclick = () => supprimer(livre.id, tr);
+  return tr;
 }
 
-function remplirFormulaire(livre) {
-  document.getElementById("champ-id").value          = livre.id;
-  document.getElementById("champ-titre").value       = livre.titre;
-  document.getElementById("champ-auteur").value      = livre.auteur;
-  document.getElementById("champ-genre").value       = livre.genre;
-  document.getElementById("champ-description").value = livre.description;
-  document.getElementById("champ-couverture").value  = livre.couverture;
-  document.getElementById("form-titre").textContent  = "✏️ Modifier un livre";
-  document.getElementById("btn-submit").textContent  = "💾 Sauvegarder";
+function remplirForm(livre) {
+  document.getElementById("champ-id").value    = livre.id;
+  document.getElementById("champ-titre").value = livre.titre;
+  document.getElementById("champ-auteur").value = livre.auteur;
+  document.getElementById("champ-genre").value = livre.genre;
+  document.getElementById("champ-desc").value  = livre.description;
+  document.getElementById("champ-img").value   = livre.couverture;
+
+  document.getElementById("btn-submit").textContent = "💾 Sauvegarder";
+  document.getElementById("form-titre").textContent = "✏️ Modifier";
   document.getElementById("btn-annuler").style.display = "inline-block";
   document.getElementById("form-livre").scrollIntoView({ behavior: "smooth" });
 }
 
-async function soumettreFormulaire(e) {
+async function soumettre(e) {
   e.preventDefault();
 
-  const id          = document.getElementById("champ-id").value;
-  const titre       = document.getElementById("champ-titre").value.trim();
-  const auteur      = document.getElementById("champ-auteur").value.trim();
-  const genre       = document.getElementById("champ-genre").value;
-  const description = document.getElementById("champ-description").value.trim();
-  const couverture  = document.getElementById("champ-couverture").value.trim()
-                      || "https://picsum.photos/200/300?random=99";
+  const id    = document.getElementById("champ-id").value;
+  const data  = {
+    titre:       document.getElementById("champ-titre").value.trim(),
+    auteur:      document.getElementById("champ-auteur").value.trim(),
+    genre:       document.getElementById("champ-genre").value,
+    description: document.getElementById("champ-desc").value.trim(),
+    couverture:  document.getElementById("champ-img").value.trim()
+                 || "https://picsum.photos/200/300?random=99",
+    aLire: false,
+  };
 
-  const donnees = { titre, auteur, genre, description, couverture, aLire: false };
-
-  if (id === "") {
-    const nouveauLivre = await ajouterLivre(donnees);
-    if (nouveauLivre) {
-      document.getElementById("corps-tableau").appendChild(creerLigne(nouveauLivre));
-    }
+  if (!id) {
+    const nouveau = await ajouterLivre(data);
+    if (nouveau)
+      document.getElementById("corps-tableau")
+              .appendChild(creerLigne(nouveau));
   } else {
-    const ancienLivre = await getLivreById(id);
-    donnees.aLire = ancienLivre ? ancienLivre.aLire : false;
-    const livreModifie = await modifierLivre(id, donnees);
-    if (livreModifie) {
-      const ancienneLigne = document.querySelector('tr[data-id="' + id + '"]');
-      if (ancienneLigne) ancienneLigne.replaceWith(creerLigne(livreModifie));
+    const ancien = await getLivreById(id);
+    data.aLire = ancien ? ancien.aLire : false;
+    const modifie = await modifierLivre(id, data);
+    if (modifie) {
+      const tr = document.querySelector(`tr[data-id="${id}"]`);
+      if (tr) tr.replaceWith(creerLigne(modifie));
     }
   }
 
-  viderFormulaire();
+  resetForm();
 }
 
-async function supprimerLigneLivre(id, ligne) {
-  const confirme = confirm("Voulez-vous vraiment supprimer ce livre ?");
-  if (!confirme) return;
+async function supprimer(id, tr) {
+  if (!confirm("Supprimer ce livre ?")) return;
   const ok = await supprimerLivre(id);
-  if (ok) ligne.remove();
+  if (ok) tr.remove();
 }
 
-function viderFormulaire() {
-  document.getElementById("champ-id").value          = "";
-  document.getElementById("champ-titre").value       = "";
-  document.getElementById("champ-auteur").value      = "";
-  document.getElementById("champ-genre").value       = "Classique";
-  document.getElementById("champ-description").value = "";
-  document.getElementById("champ-couverture").value  = "";
-  document.getElementById("form-titre").textContent  = "➕ Ajouter un livre";
-  document.getElementById("btn-submit").textContent  = "➕ Ajouter le livre";
+function resetForm() {
+  ["champ-id","champ-titre","champ-auteur",
+   "champ-desc","champ-img"].forEach((id) => {
+    document.getElementById(id).value = "";
+  });
+  document.getElementById("champ-genre").value        = "Classique";
+  document.getElementById("btn-submit").textContent   = "➕ Ajouter";
+  document.getElementById("form-titre").textContent   = "➕ Ajouter un livre";
   document.getElementById("btn-annuler").style.display = "none";
 }
 
-// ================================================
-//   DEMARRAGE
-// ================================================
-
-document.addEventListener("DOMContentLoaded", function() {
-  if (document.getElementById("livres-grid"))   initAccueil();
-  if (document.getElementById("alire-grid"))    initAlire();
-  if (document.getElementById("corps-tableau")) initAdmin();
+// ================================
+//  DÉMARRAGE — détecte la page
+// ================================
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.getElementById("livres-grid"))    initAccueil();
+  if (document.getElementById("alire-grid"))     initAlire();
+  if (document.getElementById("corps-tableau"))  initAdmin();
 });
